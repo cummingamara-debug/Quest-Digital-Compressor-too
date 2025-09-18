@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Compressor Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #FF9933, #800000, #00695c);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .uploader {
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .btn {
+      background: #800000;
+      color: #fff;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #FF9933;
+    }
+    img {
+      max-width: 80%;
+      margin-top: 20px;
+      border: 3px solid #fff;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🖼️ Image Compressor Tool</h1>
+
+  <div class="uploader">
+    <input type="file" id="upload" accept="image/*">
+    <br><br>
+    <label for="quality">Compression Quality (0.1 - 1): </label>
+    <input type="number" id="quality" min="0.1" max="1" step="0.1" value="0.7">
+    <br><br>
+    <button class="btn" onclick="compressImage()">Compress & Download</button>
+  </div>
+
+  <div id="preview"></div>
+
+  <script>
+    let uploadedImage = null;
+
+    document.getElementById('upload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        uploadedImage = new Image();
+        uploadedImage.src = event.target.result;
+        uploadedImage.onload = function() {
+          document.getElementById('preview').innerHTML =
+            '<h3>Original Preview:</h3><img src="' + uploadedImage.src + '">';
+        };
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function compressImage() {
+      if (!uploadedImage) {
+        alert("Please upload an image first!");
+        return;
+      }
+
+      const quality = parseFloat(document.getElementById('quality').value);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const width = 800; // resize width
+      const scaleFactor = width / uploadedImage.width;
+      canvas.width = width;
+      canvas.height = uploadedImage.height * scaleFactor;
+
+      ctx.drawImage(uploadedImage, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'compressed-image.jpg';
+        link.click();
+
+        document.getElementById('preview').innerHTML +=
+          '<h3>Compressed Preview:</h3><img src="' + url + '">';
+      }, 'image/jpeg', quality);
+    }
+  </script>
+</body>
+</html>
