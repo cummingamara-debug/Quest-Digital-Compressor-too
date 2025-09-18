@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quest DIgital - All-in-One Media Processing Toolkit</title>
+    <meta name="description" content="Free online tool for image compression, conversion, editing, PDF processing and more. Optimize your media files with our easy-to-use toolkit.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: white;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .tool-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .tool-header i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tool-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .tool-body {
+            padding: 1.5rem;
+        }
+        
+        .tool-body p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tool-options {
+            margin: 1.5rem 0;
+        }
+        
+        .option-group {
+            margin-bottom: 1rem;
+        }
+        
+        .option-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 5px;
+            background: var(--light-gray);
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px dashed var(--light-gray);
+            border-radius: 8px;
+            text-align: center;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .file-input:hover {
+            border-color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+        }
+        
+        .ad-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .ad-placeholder {
+            background: var(--light-gray);
+            padding: 3rem 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tool-header h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-tools"></i>
+                <h1>MediaMaster Pro</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#image-tools">Image Tools</a></li>
+                    <li><a href="#pdf-tools">PDF Tools</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2>All-in-One Media Processing Toolkit</h2>
+            <p>Free online tools for image compression, conversion, editing, PDF processing and more. Optimize your media files with our easy-to-use toolkit.</p>
+        </section>
+
+        <div class="ad-container">
+            <h3>Advertisement</h3>
+            <div class="ad-placeholder">
+                <!-- Google AdSense Ad Unit -->
+                <!-- Replace with your AdSense code -->
+                <p>Google AdSense Banner Ad</p>
+            </div>
+        </div>
+
+        <h2 id="image-tools" style="margin: 2rem 0 1rem; color: var(--secondary);">Image Tools</h2>
+        
+        <div class="tools-grid">
+            <!-- Image Compressor -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-compress-arrows-alt"></i>
+                    <h3>Image Compressor</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Reduce image file size without losing quality</p>
+                    <div class="option-group">
+                        <label for="compression-level">Compression Level</label>
+                        <div class="slider-container">
+                            <input type="range" id="compression-level" min="0" max="100" value="70">
+                            <span id="compression-value">70%</span>
+                        </div>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload image</p>
+                    </div>
+                    <button class="btn">Compress Image</button>
+                </div>
+            </div>
+
+            <!-- Image Resizer -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <h3>Image Resizer</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Resize your images to any dimensions</p>
+                    <div class="option-group">
+                        <label for="image-width">Width (px)</label>
+                        <input type="number" id="image-width" class="tool-options" placeholder="Width">
+                    </div>
+                    <div class="option-group">
+                        <label for="image-height">Height (px)</label>
+                        <input type="number" id="image-height" class="tool-options" placeholder="Height">
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload image</p>
+                    </div>
+                    <button class="btn">Resize Image</button>
+                </div>
+            </div>
+
+            <!-- Format Converter -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>Format Converter</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Convert images between different formats</p>
+                    <div class="option-group">
+                        <label for="output-format">Output Format</label>
+                        <select id="output-format" class="tool-options">
+                            <option value="jpg">JPG</option>
+                            <option value="png">PNG</option>
+                            <option value="webp">WEBP</option>
+                            <option value="gif">GIF</option>
+                            <option value="bmp">BMP</option>
+                        </select>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload image</p>
+                    </div>
+                    <button class="btn">Convert Image</button>
+                </div>
+            </div>
+
+            <!-- Image Cropper -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-crop-alt"></i>
+                    <h3>Image Cropper</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Crop your images to focus on what matters</p>
+                    <div class="option-group">
+                        <label for="crop-width">Crop Width (px)</label>
+                        <input type="number" id="crop-width" class="tool-options" placeholder="Width">
+                    </div>
+                    <div class="option-group">
+                        <label for="crop-height">Crop Height (px)</label>
+                        <input type="number" id="crop-height" class="tool-options" placeholder="Height">
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload image</p>
+                    </div>
+                    <button class="btn">Crop Image</button>
+                </div>
+            </div>
+
+            <!-- Image Enhancer -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-magic"></i>
+                    <h3>Image Enhancer</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Enhance your image quality automatically</p>
+                    <div class="option-group">
+                        <label for="enhancement-level">Enhancement Level</label>
+                        <div class="slider-container">
+                            <input type="range" id="enhancement-level" min="0" max="100" value="50">
+                            <span id="enhancement-value">50%</span>
+                        </div>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload image</p>
+                    </div>
+                    <button class="btn">Enhance Image</button>
+                </div>
+            </div>
+
+            <!-- Background Remover -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-cut"></i>
+                    <h3>Background Remover</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Remove image background with AI technology</p>
+                    <div class="option-group">
+                        <label for="bg-removal-precision">Precision Level</label>
+                        <div class="slider-container">
+                            <input type="range" id="bg-removal-precision" min="0" max="100" value="80">
+                            <span id="precision-value">80%</span>
+                        </div>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload image</p>
+                    </div>
+                    <button class="btn">Remove Background</button>
+                </div>
+            </div>
+
+            <!-- Image Rotator -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-sync"></i>
+                    <h3>Image Rotator</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Rotate and flip your images</p>
+                    <div class="option-group">
+                        <label for="rotation-angle">Rotation Angle</label>
+                        <select id="rotation-angle" class="tool-options">
+                            <option value="90">90° Clockwise</option>
+                            <option value="180">180°</option>
+                            <option value="270">90° Counterclockwise</option>
+                            <option value="flip-h">Flip Horizontal</option>
+                            <option value="flip-v">Flip Vertical</option>
+                        </select>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload image</p>
+                    </div>
+                    <button class="btn">Rotate Image</button>
+                </div>
+            </div>
+
+            <!-- Watermark Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-tint"></i>
+                    <h3>Watermark Tool</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Add text or image watermark to your photos</p>
+                    <div class="option-group">
+                        <label for="watermark-text">Watermark Text</label>
+                        <input type="text" id="watermark-text" class="tool-options" placeholder="Your watermark text">
+                    </div>
+                    <div class="option-group">
+                        <label for="watermark-opacity">Opacity</label>
+                        <div class="slider-container">
+                            <input type="range" id="watermark-opacity" min="0" max="100" value="50">
+                            <span id="opacity-value">50%</span>
+                        </div>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload image</p>
+                    </div>
+                    <button class="btn">Add Watermark</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="pdf-tools" style="margin: 3rem 0 1rem; color: var(--secondary);">PDF Tools</h2>
+
+        <div class="tools-grid">
+            <!-- PDF Compressor -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>PDF Compressor</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Reduce PDF file size while maintaining quality</p>
+                    <div class="option-group">
+                        <label for="pdf-compression-level">Compression Level</label>
+                        <div class="slider-container">
+                            <input type="range" id="pdf-compression-level" min="0" max="100" value="75">
+                            <span id="pdf-compression-value">75%</span>
+                        </div>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload PDF</p>
+                    </div>
+                    <button class="btn">Compress PDF</button>
+                </div>
+            </div>
+
+            <!-- PDF to Word -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-file-word"></i>
+                    <h3>PDF to Word</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Convert PDF documents to editable Word files</p>
+                    <div class="option-group">
+                        <label for="doc-format">Output Format</label>
+                        <select id="doc-format" class="tool-options">
+                            <option value="docx">DOCX (Word)</option>
+                            <option value="doc">DOC (Word 97-2003)</option>
+                            <option value="odt">ODT (OpenDocument)</option>
+                        </select>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload PDF</p>
+                    </div>
+                    <button class="btn">Convert to Word</button>
+                </div>
+            </div>
+
+            <!-- PDF to Excel -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-file-excel"></i>
+                    <h3>PDF to Excel</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Extract tables from PDF to Excel spreadsheets</p>
+                    <div class="option-group">
+                        <label for="excel-format">Output Format</label>
+                        <select id="excel-format" class="tool-options">
+                            <option value="xlsx">XLSX (Excel)</option>
+                            <option value="xls">XLS (Excel 97-2003)</option>
+                            <option value="csv">CSV (Comma Separated)</option>
+                        </select>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload PDF</p>
+                    </div>
+                    <button class="btn">Convert to Excel</button>
+                </div>
+            </div>
+
+            <!-- PDF to PowerPoint -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-file-powerpoint"></i>
+                    <h3>PDF to PowerPoint</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Convert PDF to editable PowerPoint presentations</p>
+                    <div class="option-group">
+                        <label for="ppt-format">Output Format</label>
+                        <select id="ppt-format" class="tool-options">
+                            <option value="pptx">PPTX (PowerPoint)</option>
+                            <option value="ppt">PPT (PowerPoint 97-2003)</option>
+                        </select>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload PDF</p>
+                    </div>
+                    <button class="btn">Convert to PowerPoint</button>
+                </div>
+            </div>
+
+            <!-- PDF Protector -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-lock"></i>
+                    <h3>PDF Protector</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Add password protection to your PDF files</p>
+                    <div class="option-group">
+                        <label for="pdf-password">Password</label>
+                        <input type="password" id="pdf-password" class="tool-options" placeholder="Enter password">
+                    </div>
+                    <div class="option-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" class="tool-options" placeholder="Confirm password">
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload PDF</p>
+                    </div>
+                    <button class="btn">Protect PDF</button>
+                </div>
+            </div>
+
+            <!-- PDF Unlocker -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-unlock"></i>
+                    <h3>PDF Unlocker</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Remove password protection from PDF files</p>
+                    <div class="option-group">
+                        <label for="unlock-password">PDF Password</label>
+                        <input type="password" id="unlock-password" class="tool-options" placeholder="Enter PDF password">
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload PDF</p>
+                    </div>
+                    <button class="btn">Unlock PDF</button>
+                </div>
+            </div>
+
+            <!-- PDF Splitter -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-cut"></i>
+                    <h3>PDF Splitter</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Split PDF into multiple files</p>
+                    <div class="option-group">
+                        <label for="split-pages">Pages to Extract (e.g., 1-5, 8, 11-13)</label>
+                        <input type="text" id="split-pages" class="tool-options" placeholder="Page range">
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload PDF</p>
+                    </div>
+                    <button class="btn">Split PDF</button>
+                </div>
+            </div>
+
+            <!-- PDF Merger -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-object-group"></i>
+                    <h3>PDF Merger</h3>
+                </div>
+                <div class="tool-body">
+                    <p>Merge multiple PDF files into one</p>
+                    <div class="option-group">
+                        <label for="merge-order">Merge Order</label>
+                        <select id="merge-order" class="tool-options">
+                            <option value="sequential">Sequential</option>
+                            <option value="alphabetical">Alphabetical</option>
+                            <option value="custom">Custom Order</option>
+                        </select>
+                    </div>
+                    <div class="file-input">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop or click to upload PDFs</p>
+                    </div>
+                    <button class="btn">Merge PDFs</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-container">
+            <h3>Advertisement</h3>
+            <div class="ad-placeholder">
+                <!-- Google AdSense Ad Unit -->
+                <!-- Replace with your AdSense code -->
+                <p>Google AdSense Rectangle Ad</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About MediaMaster Pro</h3>
+                    <p>MediaMaster Pro is a free online toolkit for all your image and PDF processing needs. Our tools are fast, secure, and easy to use.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#image-tools">Image Tools</a></li>
+                        <li><a href="#pdf-tools">PDF Tools</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> support@mediamasterpro.com</li>
+                        <li><i class="fas fa-globe"></i> www.mediamasterpro.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 MediaMaster Pro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Update slider values in real-time
+        document.addEventListener('DOMContentLoaded', function() {
+            const sliders = document.querySelectorAll('input[type="range"]');
+            
+            sliders.forEach(slider => {
+                const valueDisplay = slider.nextElementSibling;
+                valueDisplay.textContent = slider.value + '%';
+                
+                slider.addEventListener('input', function() {
+                    valueDisplay.textContent = this.value + '%';
+                });
+            });
+            
+            // File input functionality
+            const fileInputs = document.querySelectorAll('.file-input');
+            
+            fileInputs.forEach(input => {
+                input.addEventListener('click', function() {
+                    // Create a file input element
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.style.display = 'none';
+                    
+                    // Add event listener to handle file selection
+                    fileInput.addEventListener('change', function() {
+                        if (this.files && this.files[0]) {
+                            const fileName = this.files[0].name;
+                            input.innerHTML = `<i class="fas fa-file"></i><p>${fileName}</p>`;
+                        }
+                    });
+                    
+                    // Trigger the file input click
+                    document.body.appendChild(fileInput);
+                    fileInput.click();
+                    document.body.removeChild(fileInput);
+                });
+            });
+            
+            // Tool button functionality
+            const toolButtons = document.querySelectorAll('.btn');
+            
+            toolButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const toolName = this.closest('.tool-card').querySelector('h3').textContent;
+                    alert(`Processing with ${toolName}...\n\nIn a real application, this would process your file.`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
